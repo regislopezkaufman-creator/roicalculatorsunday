@@ -1,8 +1,8 @@
-import { Share2, ArrowRight, Printer, Star, Clock, DollarSign, TrendingUp, Info, Moon, Sun } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Share2, ArrowRight, Printer, Star, Clock, DollarSign, TrendingUp, Info } from 'lucide-react';
 
 // Using Google Fonts to approximate Europa Grotesk SH Extd
 // We will use 'Space Grotesk' for that wide, geometric feel
-// Updated to use CSS variables for theming
 const FontLink = () => (
     <style>
         {`
@@ -10,9 +10,8 @@ const FontLink = () => (
       
       body {
         font-family: 'Space Grotesk', sans-serif;
-        background-color: var(--app-bg);
-        color: var(--app-text);
-        transition: background-color 0.3s ease, color 0.3s ease;
+        background-color: #131313;
+        color: white;
       }
       
       .font-grotesk {
@@ -40,17 +39,16 @@ const FontLink = () => (
         width: 100%;
         height: 4px;
         cursor: pointer;
-        background: var(--slider-track);
+        background: #333;
         border-radius: 2px;
-        transition: background 0.3s ease;
       }
 
       .neon-shadow {
-        box-shadow: var(--card-shadow);
+        box-shadow: 0 4px 30px rgba(255, 72, 237, 0.15);
       }
 
       .receipt-pattern {
-        background-image: radial-gradient(var(--app-bg) 15%, transparent 16%), radial-gradient(var(--app-bg) 15%, transparent 16%);
+        background-image: radial-gradient(#131313 15%, transparent 16%), radial-gradient(#131313 15%, transparent 16%);
         background-size: 20px 20px;
         background-position: 0 0, 10px 10px;
       }
@@ -152,31 +150,7 @@ const translations = {
 const App = () => {
     // --- State ---
     const [lang, setLang] = useState('en');
-    const [theme, setTheme] = useState('dark');
     const t = translations[lang];
-
-    const isLight = theme === 'light';
-
-    // Theme Styles Implementation
-    const styles = {
-        bg: isLight ? 'bg-[#f0f2f5]' : 'bg-[#131313]',
-        text: isLight ? 'text-[#1a1a1a]' : 'text-white',
-        card: isLight ? 'bg-white' : 'bg-[#1a1a1a]',
-        border: isLight ? 'border-gray-200' : 'border-gray-800',
-        subText: isLight ? 'text-gray-500' : 'text-gray-400',
-        inputBorder: isLight ? 'border-gray-200' : 'border-gray-700',
-        inputHover: isLight ? 'hover:border-gray-400' : 'hover:border-gray-500',
-        toggleBg: isLight ? 'bg-white border-gray-200' : 'bg-[#1a1a1a] border-gray-700',
-        toggleText: isLight ? 'text-gray-400' : 'text-gray-400',
-        toggleActive: 'bg-[#ff48ed] text-black border-[#ff48ed]',
-    };
-
-    const cssVars = {
-        '--app-bg': isLight ? '#f0f2f5' : '#131313',
-        '--app-text': isLight ? '#1a1a1a' : '#ffffff',
-        '--slider-track': isLight ? '#e5e5e5' : '#333333',
-        '--card-shadow': isLight ? '0 4px 30px rgba(0, 0, 0, 0.05)' : '0 4px 30px rgba(255, 72, 237, 0.15)',
-    };
 
     const [inputs, setInputs] = useState({
         restaurantType: 'Casual Dining',
@@ -206,6 +180,7 @@ const App = () => {
     }, [inputs]);
 
     const calculateROI = () => {
+        // ... (Logic remains identical) ...
         const minutesSavedPerMonth = inputs.tablesPerDay * 12 * 30;
         const hoursSaved = Math.round(minutesSavedPerMonth / 60);
 
@@ -237,48 +212,23 @@ const App = () => {
     };
 
     return (
-        <div
-            className={`min-h-screen ${styles.bg} ${styles.text} overflow-x-hidden selection:bg-[#ff48ed] selection:text-black relative transition-colors duration-300`}
-            style={cssVars}
-        >
+        <div className="min-h-screen bg-[#131313] text-white overflow-x-hidden selection:bg-[#ff48ed] selection:text-black relative">
             <FontLink />
 
-            {/* Controls: Language & Theme */}
-            <div className="absolute top-6 right-6 z-50 flex items-center gap-4">
-
-                {/* Theme Toggle */}
-                <div className={`flex p-1 rounded-full border ${styles.toggleBg} transition-colors`}>
-                    <button
-                        onClick={() => setTheme('light')}
-                        className={`p-1.5 rounded-full transition-all ${theme === 'light' ? 'bg-[#ff48ed] text-black shadow-sm' : 'text-gray-400 hover:text-gray-500'}`}
-                        title="Light Mode"
-                    >
-                        <Sun size={14} />
-                    </button>
-                    <button
-                        onClick={() => setTheme('dark')}
-                        className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-[#ff48ed] text-black shadow-sm' : 'text-gray-400 hover:text-gray-500'}`}
-                        title="Dark Mode"
-                    >
-                        <Moon size={14} />
-                    </button>
-                </div>
-
-                {/* Language Toggle */}
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => setLang('en')}
-                        className={`px-3 py-1 rounded-full text-sm font-bold transition-all border ${lang === 'en' ? 'bg-[#ff48ed] text-black border-[#ff48ed]' : `${styles.toggleBg} ${styles.toggleText}`}`}
-                    >
-                        EN
-                    </button>
-                    <button
-                        onClick={() => setLang('fr')}
-                        className={`px-3 py-1 rounded-full text-sm font-bold transition-all border ${lang === 'fr' ? 'bg-[#ff48ed] text-black border-[#ff48ed]' : `${styles.toggleBg} ${styles.toggleText}`}`}
-                    >
-                        FR
-                    </button>
-                </div>
+            {/* Language Toggle */}
+            <div className="absolute top-6 right-6 z-50 flex gap-2">
+                <button
+                    onClick={() => setLang('en')}
+                    className={`px-3 py-1 rounded-full text-sm font-bold transition-all ${lang === 'en' ? 'bg-[#ff48ed] text-black' : 'bg-[#1a1a1a] text-gray-400 border border-gray-700'}`}
+                >
+                    EN
+                </button>
+                <button
+                    onClick={() => setLang('fr')}
+                    className={`px-3 py-1 rounded-full text-sm font-bold transition-all ${lang === 'fr' ? 'bg-[#ff48ed] text-black' : 'bg-[#1a1a1a] text-gray-400 border border-gray-700'}`}
+                >
+                    FR
+                </button>
             </div>
 
             {/* --- Main Content --- */}
@@ -290,7 +240,7 @@ const App = () => {
                         {t.heroTitle.split('\n')[0]} <br />
                         <span className="shimmer">{t.heroTitle.split('\n')[1]}</span>
                     </h1>
-                    <p className={`${styles.subText} text-lg md:text-xl max-w-2xl mx-auto font-light transition-colors`}>
+                    <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
                         {t.heroSubtitle}
                     </p>
                 </div>
@@ -302,7 +252,7 @@ const App = () => {
                     <div className="lg:col-span-7 space-y-10">
 
                         {/* Input Group 1: Basics */}
-                        <div className={`${styles.card} p-8 rounded-3xl border ${styles.border} neon-shadow relative overflow-hidden group transition-all duration-300`}>
+                        <div className="bg-[#1a1a1a] p-8 rounded-3xl border border-gray-800 neon-shadow relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-1 h-full bg-[#ff48ed] opacity-50 group-hover:opacity-100 transition-opacity"></div>
                             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                                 <span className="text-[#ff48ed]">01.</span> {t.restaurantProfile}
@@ -310,7 +260,7 @@ const App = () => {
 
                             <div className="space-y-6">
                                 <div>
-                                    <label className={`block text-sm ${styles.subText} mb-2 uppercase tracking-wider font-semibold`}>{t.restaurantType}</label>
+                                    <label className="block text-sm text-gray-400 mb-2 uppercase tracking-wider font-semibold">{t.restaurantType}</label>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                         {Object.keys(translations.en.types).map((typeKey) => (
                                             <button
@@ -318,7 +268,7 @@ const App = () => {
                                                 onClick={() => handleInputChange({ target: { name: 'restaurantType', value: translations.en.types[typeKey] } })}
                                                 className={`px-2 py-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border ${inputs.restaurantType === translations.en.types[typeKey]
                                                     ? 'bg-[#ff48ed] text-black border-[#ff48ed]'
-                                                    : `bg-transparent ${styles.subText} ${styles.inputBorder} ${styles.inputHover}`
+                                                    : 'bg-transparent text-gray-400 border-gray-700 hover:border-gray-500'
                                                     }`}
                                             >
                                                 {t.types[typeKey]}
@@ -329,7 +279,7 @@ const App = () => {
 
                                 <div>
                                     <div className="flex justify-between mb-2">
-                                        <label className={`text-sm ${styles.subText} uppercase tracking-wider font-semibold`}>{t.monthlyTurnover}</label>
+                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{t.monthlyTurnover}</label>
                                         <span className="text-[#ff48ed] font-bold">{formatCurrency(inputs.monthlyTurnover)}</span>
                                     </div>
                                     <input
@@ -342,7 +292,7 @@ const App = () => {
                                         onChange={handleInputChange}
                                         className="w-full"
                                     />
-                                    <div className={`flex justify-between text-xs ${styles.subText} mt-2`}>
+                                    <div className="flex justify-between text-xs text-gray-600 mt-2">
                                         <span>{formatCurrency(10000)}</span>
                                         <span>{formatCurrency(500000)}+</span>
                                     </div>
@@ -351,7 +301,7 @@ const App = () => {
                         </div>
 
                         {/* Input Group 2: Volume */}
-                        <div className={`${styles.card} p-8 rounded-3xl border ${styles.border} neon-shadow relative overflow-hidden group transition-all duration-300`}>
+                        <div className="bg-[#1a1a1a] p-8 rounded-3xl border border-gray-800 neon-shadow relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-1 h-full bg-[#ff48ed] opacity-50 group-hover:opacity-100 transition-opacity"></div>
                             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                                 <span className="text-[#ff48ed]">02.</span> {t.volumeTraffic}
@@ -360,7 +310,7 @@ const App = () => {
                             <div className="space-y-8">
                                 <div>
                                     <div className="flex justify-between mb-2">
-                                        <label className={`text-sm ${styles.subText} uppercase tracking-wider font-semibold`}>{t.tablesPerDay}</label>
+                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{t.tablesPerDay}</label>
                                         <span className="text-[#ff48ed] font-bold">{inputs.tablesPerDay}</span>
                                     </div>
                                     <input
@@ -376,7 +326,7 @@ const App = () => {
 
                                 <div>
                                     <div className="flex justify-between mb-2">
-                                        <label className={`text-sm ${styles.subText} uppercase tracking-wider font-semibold`}>{t.avgTicket}</label>
+                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{t.avgTicket}</label>
                                         <span className="text-[#ff48ed] font-bold">{formatCurrency(inputs.avgTicket)}</span>
                                     </div>
                                     <input
@@ -523,7 +473,7 @@ const App = () => {
                                 >
                                     {t.startSaving} <ArrowRight size={24} />
                                 </a>
-                                <p className={`mt-4 text-sm ${styles.subText}`}>
+                                <p className="mt-4 text-sm text-gray-500">
                                     {t.disclaimer}
                                 </p>
                             </div>
@@ -534,7 +484,7 @@ const App = () => {
                 </div>
 
                 {/* --- Footer / Final CTA Section --- */}
-                <section className={`mt-20 md:mt-32 text-center border-t ${isLight ? 'border-gray-300' : 'border-gray-800'} pt-16 pb-12`}>
+                <section className="mt-20 md:mt-32 text-center border-t border-gray-800 pt-16 pb-12">
                     <h2 className="text-3xl md:text-5xl font-bold mb-8 uppercase tracking-tighter whitespace-pre-line">
                         {t.footerTitle}
                     </h2>
@@ -542,7 +492,7 @@ const App = () => {
                         href="https://sundayapp.com/fr/essayer-sunday/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`inline-flex items-center gap-3 ${isLight ? 'bg-black text-white hover:bg-[#ff48ed] hover:text-black' : 'bg-white text-black hover:bg-[#ff48ed] hover:text-white'} px-8 py-4 rounded-full font-bold text-lg uppercase tracking-wider transition-all duration-300 transform hover:scale-105`}
+                        className="inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold text-lg uppercase tracking-wider hover:bg-[#ff48ed] hover:text-white transition-all duration-300 transform hover:scale-105"
                     >
                         {t.getStarted} <ArrowRight size={20} />
                     </a>
