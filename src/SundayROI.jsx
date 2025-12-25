@@ -165,11 +165,9 @@ const App = () => {
             {/* --- Navigation / Header --- */}
             <nav className="flex justify-between items-center px-6 py-6 max-w-7xl mx-auto">
                 <div className="flex items-center gap-2">
-                    {/* Mock Logo */}
-                    <div className="w-8 h-8 bg-[#ff48ed] rounded-full flex items-center justify-center">
-                        <span className="font-bold text-black text-xl italic">S</span>
-                    </div>
-                    <span className="font-bold text-xl tracking-tight">sunday</span>
+                    {/* Real Logo */}
+                    <img src="/sunday-logo-white.png" alt="Sunday" className="h-8 w-auto object-contain" />
+
                 </div>
                 <a
                     href="https://sundayapp.com/fr/essayer-sunday/"
@@ -217,8 +215,8 @@ const App = () => {
                                                 key={type}
                                                 onClick={() => handleInputChange({ target: { name: 'restaurantType', value: type } })}
                                                 className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border ${inputs.restaurantType === type
-                                                        ? 'bg-[#ff48ed] text-black border-[#ff48ed]'
-                                                        : 'bg-transparent text-gray-400 border-gray-700 hover:border-gray-500'
+                                                    ? 'bg-[#ff48ed] text-black border-[#ff48ed]'
+                                                    : 'bg-transparent text-gray-400 border-gray-700 hover:border-gray-500'
                                                     }`}
                                             >
                                                 {type}
