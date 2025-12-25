@@ -163,21 +163,22 @@ const App = () => {
             <FontLink />
 
             {/* --- Navigation / Header --- */}
-            <nav className="flex justify-between items-center px-6 py-6 max-w-7xl mx-auto">
-                <div className="flex items-center gap-2">
-                    {/* Real Logo */}
-                    <img src="/sunday-logo-white.png" alt="Sunday" className="h-8 w-auto object-contain" />
-
-                </div>
-                <a
-                    href="https://sundayapp.com/fr/essayer-sunday/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hidden md:block bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-[#ff48ed] hover:text-white transition-all duration-300 transform hover:scale-105"
-                >
-                    Book a Demo
-                </a>
-            </nav>
+            <header className="bg-white w-full shadow-md relative z-50">
+                <nav className="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+                    <div className="flex items-center gap-2">
+                        {/* Real Logo - Black Text */}
+                        <img src="/sunday-logo-black.png" alt="Sunday" className="h-8 w-auto object-contain" />
+                    </div>
+                    <a
+                        href="https://sundayapp.com/fr/essayer-sunday/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-black text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-[#ff48ed] hover:text-black transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    >
+                        Book a Demo
+                    </a>
+                </nav>
+            </header>
 
             {/* --- Main Content --- */}
             <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 lg:py-16">
