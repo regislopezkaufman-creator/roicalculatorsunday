@@ -230,7 +230,7 @@ const App = () => {
                     <img
                         src={theme === 'dark' ? "/sunday-logo-white.png" : "/sunday-logo-black.png"}
                         alt="Sunday"
-                        className="h-8 md:h-10 w-auto object-contain transition-all duration-300"
+                        className="h-12 md:h-20 w-auto object-contain transition-all duration-300"
                     />
                 </div>
 
