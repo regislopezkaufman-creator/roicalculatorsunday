@@ -76,8 +76,82 @@ const FontLink = () => (
     </style>
 );
 
+const translations = {
+    en: {
+        restaurantProfile: "Restaurant Profile",
+        restaurantType: "Restaurant Type",
+        types: {
+            "Fine Dining": "Fine Dining",
+            "Casual": "Casual",
+            "Fast Food": "Fast Food",
+            "Bar/Pub": "Bar/Pub"
+        },
+        monthlyTurnover: "Monthly Turnover",
+        volumeTraffic: "Volume & Traffic",
+        tablesPerDay: "Tables Per Day",
+        avgTicket: "Avg Ticket Size",
+        ctaMobile: "Get this ROI",
+        receiptHeader: "Your ROI Report",
+        timeSaved: "Time Saved",
+        timeSavedSub: "12min x tables",
+        reviewBoost: "Review Boost",
+        reviewBoostSub: "5x Multiplier Active",
+        tipsSurge: "Tips Surge",
+        tipsSurgeSub: "Staff Retention Impact",
+        estValue: "Est. Value",
+        perMonth: "Per Month",
+        poweredBy: "Powered by Sunday",
+        startSaving: "Start Saving Now",
+        disclaimer: "*Estimates based on average Sunday performance metrics.",
+        footerTitle: "Ready to optimize \n your restaurant?",
+        getStarted: "Get Started",
+        heroTitle: "Turn Tables \n Into Treasure",
+        heroSubtitle: "Stop losing 12 minutes per table. Calculate how much time and money you're leaving on the table with legacy payments.",
+        new: "New",
+        hrsMo: "hrs/mo",
+        vol: "Vol"
+    },
+    fr: {
+        restaurantProfile: "Profil du Restaurant",
+        restaurantType: "Type de Restaurant",
+        types: {
+            "Fine Dining": "Gastronomique",
+            "Casual": "Bistrot / Casual",
+            "Fast Food": "Restauration Rapide",
+            "Bar/Pub": "Bar / Pub"
+        },
+        monthlyTurnover: "Chiffre d'Affaires Mensuel",
+        volumeTraffic: "Volume & Trafic",
+        tablesPerDay: "Tables par Jour",
+        avgTicket: "Ticket Moyen",
+        ctaMobile: "Obtenir ce ROI",
+        receiptHeader: "Votre Rapport ROI",
+        timeSaved: "Temps Gagné",
+        timeSavedSub: "12min x tables",
+        reviewBoost: "Boost d'Avis",
+        reviewBoostSub: "Multiplicateur x5 Actif",
+        tipsSurge: "Hausse Pourboires",
+        tipsSurgeSub: "Impact Rétention Staff",
+        estValue: "Valeur Est.",
+        perMonth: "Par Mois",
+        poweredBy: "Propulsé par Sunday",
+        startSaving: "Économisez Maintenant",
+        disclaimer: "*Estimations basées sur les moyennes de performance Sunday.",
+        footerTitle: "Prêt à optimiser \n votre restaurant ?",
+        getStarted: "Commencer",
+        heroTitle: "Transformez vos tables \n en trésor",
+        heroSubtitle: "Ne perdez plus 12 minutes par table. Calculez le temps et l'argent que vous laissez sur la table avec les paiements traditionnels.",
+        new: "Nouv.",
+        hrsMo: "h/mois",
+        vol: "Vol"
+    }
+};
+
 const App = () => {
     // --- State ---
+    const [lang, setLang] = useState('en');
+    const t = translations[lang];
+
     const [inputs, setInputs] = useState({
         restaurantType: 'Casual Dining',
         tablesPerDay: 40,
@@ -106,72 +180,68 @@ const App = () => {
     }, [inputs]);
 
     const calculateROI = () => {
-        // Logic based on prompt:
-        // Time Savings: 12 min per table
-        // Tip Increase: 3x (Assumed baseline tip is 10% of turnover, increase is the delta)
-        // Review Boost: 5x more reviews (Qualitative, but we assign a value factor for the total)
-
-        // 1. Time Saved
-        // Tables per day * 12 mins * 30 days
+        // ... (Logic remains identical) ...
         const minutesSavedPerMonth = inputs.tablesPerDay * 12 * 30;
         const hoursSaved = Math.round(minutesSavedPerMonth / 60);
 
-        // 2. Tip Increase
-        // Baseline tips ~10% of turnover. New tips = 3x frequency/volume factor.
-        // Let's assume the "Increase" is strictly the extra amount generated.
-        // If we assume current tips are $X, and tool makes it 3X, the gain is 2X.
-        // Let's model it as: Current Tips = 10% of Revenue. New Tips = +30% efficiency on collection.
-        // Simplified: 3x increase implies a massive jump. Let's conservatively say it adds 20% to the tip pool volume.
-        // Or strictly follow prompt "3 times".
         const baselineTips = inputs.monthlyTurnover * 0.10;
-        const newTips = baselineTips * 1.4; // Conservative 40% increase (Sunday often claims 40% increase)
-        // Prompt says "Tip Increase: 3 times". This might mean 3x frequency. 
-        // Let's calculate the 'Value' of tips as money that goes to staff (happier staff = retention).
-        const extraTips = inputs.monthlyTurnover * 0.15; // Placeholder for significant boost
+        const newTips = baselineTips * 1.4;
+        const extraTips = inputs.monthlyTurnover * 0.15;
 
-        // 3. Review Boost
-        // 5x more reviews. 
-        const estimatedReviews = Math.floor((inputs.tablesPerDay * 30) * 0.05); // 5% leave reviews normally
+        const estimatedReviews = Math.floor((inputs.tablesPerDay * 30) * 0.05);
         const boostedReviews = estimatedReviews * 5;
         const extraReviews = boostedReviews - estimatedReviews;
 
-        // 4. Monetary Value of Time
-        // Assuming 1 table turn extra per hour saved or labor cost.
-        // Let's map Time Saved to Labor Cost ($15/hr) for the ROI total
         const laborSavings = hoursSaved * 15;
-
-        // Total Estimated Monthly Value (Labor savings + implied retention/efficiency)
-        // We won't add tips to business ROI directly (since it goes to staff), 
-        // but we can add a 'Table Turnover' revenue increase.
-        // If you save 12 mins per table, you might turn tables 10% faster.
         const revenueBoost = inputs.monthlyTurnover * 0.10;
 
         setResults({
             timeSavedHours: hoursSaved,
-            extraTips: Math.round(extraTips), // Visual number
+            extraTips: Math.round(extraTips),
             extraReviews: extraReviews,
             totalValue: Math.round(revenueBoost + laborSavings)
         });
     };
 
     const formatCurrency = (val) => {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+        return new Intl.NumberFormat(lang === 'fr' ? 'fr-FR' : 'en-US', {
+            style: 'currency',
+            currency: lang === 'fr' ? 'EUR' : 'USD',
+            maximumFractionDigits: 0
+        }).format(val);
     };
 
     return (
-        <div className="min-h-screen bg-[#131313] text-white overflow-x-hidden selection:bg-[#ff48ed] selection:text-black">
+        <div className="min-h-screen bg-[#131313] text-white overflow-x-hidden selection:bg-[#ff48ed] selection:text-black relative">
             <FontLink />
+
+            {/* Language Toggle */}
+            <div className="absolute top-6 right-6 z-50 flex gap-2">
+                <button
+                    onClick={() => setLang('en')}
+                    className={`px-3 py-1 rounded-full text-sm font-bold transition-all ${lang === 'en' ? 'bg-[#ff48ed] text-black' : 'bg-[#1a1a1a] text-gray-400 border border-gray-700'}`}
+                >
+                    EN
+                </button>
+                <button
+                    onClick={() => setLang('fr')}
+                    className={`px-3 py-1 rounded-full text-sm font-bold transition-all ${lang === 'fr' ? 'bg-[#ff48ed] text-black' : 'bg-[#1a1a1a] text-gray-400 border border-gray-700'}`}
+                >
+                    FR
+                </button>
+            </div>
+
             {/* --- Main Content --- */}
             <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 lg:py-16">
 
                 {/* Header Section */}
                 <div className="text-center mb-16 space-y-4">
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter uppercase leading-none">
-                        Turn Tables <br />
-                        <span className="shimmer">Into Treasure</span>
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter uppercase leading-none whitespace-pre-line">
+                        {t.heroTitle.split('\n')[0]} <br />
+                        <span className="shimmer">{t.heroTitle.split('\n')[1]}</span>
                     </h1>
                     <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
-                        Stop losing 12 minutes per table. Calculate how much time and money you're leaving on the table with legacy payments.
+                        {t.heroSubtitle}
                     </p>
                 </div>
 
@@ -185,23 +255,23 @@ const App = () => {
                         <div className="bg-[#1a1a1a] p-8 rounded-3xl border border-gray-800 neon-shadow relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-1 h-full bg-[#ff48ed] opacity-50 group-hover:opacity-100 transition-opacity"></div>
                             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                                <span className="text-[#ff48ed]">01.</span> Restaurant Profile
+                                <span className="text-[#ff48ed]">01.</span> {t.restaurantProfile}
                             </h3>
 
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-sm text-gray-400 mb-2 uppercase tracking-wider font-semibold">Restaurant Type</label>
+                                    <label className="block text-sm text-gray-400 mb-2 uppercase tracking-wider font-semibold">{t.restaurantType}</label>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                        {['Fine Dining', 'Casual', 'Fast Food', 'Bar/Pub'].map((type) => (
+                                        {Object.keys(translations.en.types).map((typeKey) => (
                                             <button
-                                                key={type}
-                                                onClick={() => handleInputChange({ target: { name: 'restaurantType', value: type } })}
-                                                className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border ${inputs.restaurantType === type
+                                                key={typeKey}
+                                                onClick={() => handleInputChange({ target: { name: 'restaurantType', value: translations.en.types[typeKey] } })}
+                                                className={`px-2 py-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 border ${inputs.restaurantType === translations.en.types[typeKey]
                                                     ? 'bg-[#ff48ed] text-black border-[#ff48ed]'
                                                     : 'bg-transparent text-gray-400 border-gray-700 hover:border-gray-500'
                                                     }`}
                                             >
-                                                {type}
+                                                {t.types[typeKey]}
                                             </button>
                                         ))}
                                     </div>
@@ -209,7 +279,7 @@ const App = () => {
 
                                 <div>
                                     <div className="flex justify-between mb-2">
-                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">Monthly Turnover</label>
+                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{t.monthlyTurnover}</label>
                                         <span className="text-[#ff48ed] font-bold">{formatCurrency(inputs.monthlyTurnover)}</span>
                                     </div>
                                     <input
@@ -223,8 +293,8 @@ const App = () => {
                                         className="w-full"
                                     />
                                     <div className="flex justify-between text-xs text-gray-600 mt-2">
-                                        <span>$10k</span>
-                                        <span>$500k+</span>
+                                        <span>{formatCurrency(10000)}</span>
+                                        <span>{formatCurrency(500000)}+</span>
                                     </div>
                                 </div>
                             </div>
@@ -234,14 +304,14 @@ const App = () => {
                         <div className="bg-[#1a1a1a] p-8 rounded-3xl border border-gray-800 neon-shadow relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-1 h-full bg-[#ff48ed] opacity-50 group-hover:opacity-100 transition-opacity"></div>
                             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                                <span className="text-[#ff48ed]">02.</span> Volume & Traffic
+                                <span className="text-[#ff48ed]">02.</span> {t.volumeTraffic}
                             </h3>
 
                             <div className="space-y-8">
                                 <div>
                                     <div className="flex justify-between mb-2">
-                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">Tables Per Day</label>
-                                        <span className="text-[#ff48ed] font-bold">{inputs.tablesPerDay} tables</span>
+                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{t.tablesPerDay}</label>
+                                        <span className="text-[#ff48ed] font-bold">{inputs.tablesPerDay}</span>
                                     </div>
                                     <input
                                         type="range"
@@ -256,8 +326,8 @@ const App = () => {
 
                                 <div>
                                     <div className="flex justify-between mb-2">
-                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">Avg Ticket Size</label>
-                                        <span className="text-[#ff48ed] font-bold">${inputs.avgTicket}</span>
+                                        <label className="text-sm text-gray-400 uppercase tracking-wider font-semibold">{t.avgTicket}</label>
+                                        <span className="text-[#ff48ed] font-bold">{formatCurrency(inputs.avgTicket)}</span>
                                     </div>
                                     <input
                                         type="range"
@@ -280,7 +350,7 @@ const App = () => {
                                 rel="noopener noreferrer"
                                 className="block text-center w-full bg-[#ff48ed] text-black py-4 rounded-xl font-bold text-xl uppercase tracking-wide hover:bg-white transition-colors"
                             >
-                                Get this ROI
+                                {t.ctaMobile}
                             </a>
                         </div>
 
@@ -304,8 +374,8 @@ const App = () => {
                                         {/* Receipt Header */}
                                         <div className="text-center border-b-2 border-dashed border-gray-300 pb-6">
                                             <div className="w-12 h-12 bg-black rounded-full text-white flex items-center justify-center mx-auto mb-3 font-bold text-xl italic">S</div>
-                                            <h2 className="text-2xl font-bold tracking-tight uppercase">Your ROI Report</h2>
-                                            <p className="text-gray-500 text-sm font-mono mt-1">{new Date().toLocaleDateString()}</p>
+                                            <h2 className="text-2xl font-bold tracking-tight uppercase">{t.receiptHeader}</h2>
+                                            <p className="text-gray-500 text-sm font-mono mt-1">{new Date().toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US')}</p>
                                             <p className="text-gray-500 text-sm font-mono uppercase">Merchant ID: #{Math.floor(Math.random() * 90000) + 10000}</p>
                                         </div>
 
@@ -319,11 +389,11 @@ const App = () => {
                                                         <Clock size={16} />
                                                     </div>
                                                     <div>
-                                                        <span className="block font-bold uppercase">Time Saved</span>
-                                                        <span className="text-xs text-gray-500">12min x {inputs.tablesPerDay} tables</span>
+                                                        <span className="block font-bold uppercase">{t.timeSaved}</span>
+                                                        <span className="text-xs text-gray-500">{t.timeSavedSub.replace('tables', inputs.tablesPerDay)}</span>
                                                     </div>
                                                 </div>
-                                                <span className="font-bold text-lg">{results.timeSavedHours} hrs/mo</span>
+                                                <span className="font-bold text-lg">{results.timeSavedHours} {t.hrsMo}</span>
                                             </div>
 
                                             {/* Item 2 */}
@@ -333,11 +403,11 @@ const App = () => {
                                                         <Star size={16} />
                                                     </div>
                                                     <div>
-                                                        <span className="block font-bold uppercase">Review Boost</span>
-                                                        <span className="text-xs text-gray-500">5x Multiplier Active</span>
+                                                        <span className="block font-bold uppercase">{t.reviewBoost}</span>
+                                                        <span className="text-xs text-gray-500">{t.reviewBoostSub}</span>
                                                     </div>
                                                 </div>
-                                                <span className="font-bold text-lg">+{results.extraReviews} New</span>
+                                                <span className="font-bold text-lg">+{results.extraReviews} {t.new}</span>
                                             </div>
 
                                             {/* Item 3 */}
@@ -347,11 +417,11 @@ const App = () => {
                                                         <TrendingUp size={16} />
                                                     </div>
                                                     <div>
-                                                        <span className="block font-bold uppercase">Tips Surge</span>
-                                                        <span className="text-xs text-gray-500">Staff Retention Impact</span>
+                                                        <span className="block font-bold uppercase">{t.tipsSurge}</span>
+                                                        <span className="text-xs text-gray-500">{t.tipsSurgeSub}</span>
                                                     </div>
                                                 </div>
-                                                <span className="font-bold text-lg">3x Vol</span>
+                                                <span className="font-bold text-lg">3x {t.vol}</span>
                                             </div>
 
                                             {/* Divider */}
@@ -359,19 +429,19 @@ const App = () => {
 
                                             {/* Total */}
                                             <div className="flex justify-between items-end">
-                                                <span className="font-bold text-xl uppercase tracking-tighter">Est. Value</span>
+                                                <span className="font-bold text-xl uppercase tracking-tighter">{t.estValue}</span>
                                                 <div className="text-right">
                                                     <span className="block text-4xl font-extrabold tracking-tighter leading-none">
                                                         {formatCurrency(results.totalValue)}
                                                     </span>
-                                                    <span className="text-xs text-gray-500 uppercase font-semibold">Per Month</span>
+                                                    <span className="text-xs text-gray-500 uppercase font-semibold">{t.perMonth}</span>
                                                 </div>
                                             </div>
 
                                             {/* Barcode Mock */}
                                             <div className="pt-6 text-center opacity-80">
                                                 <div className="h-12 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABCAYAAAD5PA/NAAAAFklEQVR4AWP4z8DwHwwDhuBwIwwDAwAAAP//hQz52wAAAABJRU5ErkJggg==')] bg-repeat-x bg-contain w-full mb-2"></div>
-                                                <p className="text-[10px] uppercase tracking-[0.2em]">Powered by Sunday</p>
+                                                <p className="text-[10px] uppercase tracking-[0.2em]">{t.poweredBy}</p>
                                             </div>
 
                                         </div>
@@ -401,10 +471,10 @@ const App = () => {
                                     rel="noopener noreferrer"
                                     className="bg-[#ff48ed] text-black w-full py-4 rounded-xl font-bold text-xl uppercase tracking-wide hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(255,72,237,0.4)] hover:shadow-[0_0_40px_rgba(255,72,237,0.6)] flex items-center justify-center gap-3"
                                 >
-                                    Start Saving Now <ArrowRight size={24} />
+                                    {t.startSaving} <ArrowRight size={24} />
                                 </a>
                                 <p className="mt-4 text-sm text-gray-500">
-                                    *Estimates based on average Sunday performance metrics.
+                                    {t.disclaimer}
                                 </p>
                             </div>
 
@@ -415,8 +485,8 @@ const App = () => {
 
                 {/* --- Footer / Final CTA Section --- */}
                 <section className="mt-20 md:mt-32 text-center border-t border-gray-800 pt-16 pb-12">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-8 uppercase tracking-tighter">
-                        Ready to optimize <br /> <span className="text-[#ff48ed]">your restaurant?</span>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-8 uppercase tracking-tighter whitespace-pre-line">
+                        {t.footerTitle}
                     </h2>
                     <a
                         href="https://sundayapp.com/fr/essayer-sunday/"
@@ -424,7 +494,7 @@ const App = () => {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold text-lg uppercase tracking-wider hover:bg-[#ff48ed] hover:text-white transition-all duration-300 transform hover:scale-105"
                     >
-                        Get Started <ArrowRight size={20} />
+                        {t.getStarted} <ArrowRight size={20} />
                     </a>
                 </section>
 
