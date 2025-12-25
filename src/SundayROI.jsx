@@ -225,26 +225,17 @@ const App = () => {
             <div className="min-h-screen bg-[#f3f4f6] dark:bg-[#131313] text-gray-900 dark:text-white overflow-x-hidden selection:bg-[#ff48ed] selection:text-black relative transition-colors duration-300">
                 <FontLink />
 
+                {/* Sunday Logo */}
+                <div className="absolute top-6 left-6 z-50">
+                    <img
+                        src={theme === 'dark' ? "/sunday-logo-white.png" : "/sunday-logo-black.png"}
+                        alt="Sunday"
+                        className="h-8 md:h-10 w-auto object-contain transition-all duration-300"
+                    />
+                </div>
+
                 {/* Controls */}
                 <div className="absolute top-6 right-6 z-50 flex items-center gap-4">
-
-                    {/* Theme Toggle */}
-                    <div className="flex p-1 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1a1a1a] transition-colors">
-                        <button
-                            onClick={() => setTheme('light')}
-                            className={`p-1.5 rounded-full transition-all ${theme === 'light' ? 'bg-[#ff48ed] text-black shadow-sm' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-                            title="Light Mode"
-                        >
-                            <Sun size={14} />
-                        </button>
-                        <button
-                            onClick={() => setTheme('dark')}
-                            className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-[#ff48ed] text-black shadow-sm' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-                            title="Dark Mode"
-                        >
-                            <Moon size={14} />
-                        </button>
-                    </div>
 
                     {/* Language Toggle */}
                     <div className="flex gap-2">
@@ -282,6 +273,26 @@ const App = () => {
 
                         {/* LEFT COLUMN: Inputs */}
                         <div className="lg:col-span-7 space-y-10">
+
+                            {/* Theme Toggle - Positioned before Profile */}
+                            <div className="flex justify-end -mb-4 relative z-10">
+                                <div className="flex p-1 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1a1a1a] transition-colors shadow-sm">
+                                    <button
+                                        onClick={() => setTheme('light')}
+                                        className={`p-1.5 rounded-full transition-all ${theme === 'light' ? 'bg-[#ff48ed] text-black shadow-sm' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                                        title="Light Mode"
+                                    >
+                                        <Sun size={14} />
+                                    </button>
+                                    <button
+                                        onClick={() => setTheme('dark')}
+                                        className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-[#ff48ed] text-black shadow-sm' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                                        title="Dark Mode"
+                                    >
+                                        <Moon size={14} />
+                                    </button>
+                                </div>
+                            </div>
 
                             {/* Input Group 1: Basics */}
                             <div className="bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl border border-gray-200 dark:border-gray-800 neon-shadow relative overflow-hidden group transition-colors duration-300">
