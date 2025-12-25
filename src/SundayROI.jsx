@@ -159,7 +159,7 @@ const translations = {
 const App = () => {
     // --- State ---
     const [lang, setLang] = useState('en');
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState('light');
     const t = translations[lang];
 
     const [inputs, setInputs] = useState({
