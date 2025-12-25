@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Share2, ArrowRight, Printer, Star, Clock, DollarSign, TrendingUp, Sun, Moon } from 'lucide-react';
+import { ArrowRight, Star, Clock, DollarSign, TrendingUp, Sun, Moon } from 'lucide-react';
 
 // Using Google Fonts to approximate Europa Grotesk SH Extd
 const FontLink = () => (
@@ -416,7 +416,7 @@ const App = () => {
 
                                             {/* Receipt Header */}
                                             <div className="text-center border-b-2 border-dashed border-gray-300 pb-6">
-                                                <div className="w-12 h-12 bg-black rounded-full text-white flex items-center justify-center mx-auto mb-3 font-bold text-xl italic">S</div>
+                                                <img src="/sunday-logo-black.png" alt="Sunday" className="h-10 mx-auto mb-4 object-contain" />
                                                 <h2 className="text-2xl font-bold tracking-tight uppercase">{t.receiptHeader}</h2>
                                                 <p className="text-gray-500 text-sm font-mono mt-1">{new Date().toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US')}</p>
                                                 <p className="text-gray-500 text-sm font-mono uppercase">Merchant ID: #{Math.floor(Math.random() * 90000) + 10000}</p>
@@ -494,15 +494,7 @@ const App = () => {
                                         <div className="h-4 w-full bg-white relative top-3 receipt-tear-bottom"></div>
                                     </div>
 
-                                    {/* Floating "Print" Action */}
-                                    <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-3">
-                                        <button className="bg-[#ff48ed] p-4 rounded-full text-black shadow-lg hover:bg-white transition-colors" title="Download Report">
-                                            <Printer size={20} />
-                                        </button>
-                                        <button className="bg-[#1a1a1a] p-4 rounded-full text-white shadow-lg border border-gray-700 hover:border-[#ff48ed] transition-colors" title="Share">
-                                            <Share2 size={20} />
-                                        </button>
-                                    </div>
+
 
                                 </div>
 
