@@ -255,7 +255,7 @@ const App = () => {
                 </div>
 
                 {/* --- Main Content --- */}
-                <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 lg:py-16">
+                <main className="max-w-7xl mx-auto px-4 md:px-6 pt-32 pb-12 md:pt-40 lg:pt-52 lg:pb-20">
 
                     {/* Header Section */}
                     <div className="text-center mb-16 space-y-4">
