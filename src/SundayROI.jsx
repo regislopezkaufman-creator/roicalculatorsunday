@@ -226,7 +226,7 @@ const App = () => {
                 <FontLink />
 
                 {/* Sunday Logo */}
-                <div className="absolute top-6 left-6 z-50">
+                <div className="absolute top-2 left-6 z-50">
                     <img
                         src={theme === 'dark' ? "/sunday-logo-white.png" : "/sunday-logo-black.png"}
                         alt="Sunday"
