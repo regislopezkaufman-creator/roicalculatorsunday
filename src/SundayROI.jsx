@@ -114,8 +114,8 @@ const translations = {
         disclaimer: "*Estimates based on average Sunday performance metrics.",
         footerTitle: "Ready to optimize \n your restaurant?",
         getStarted: "Get Started",
-        heroTitle: "Turn Tables \n Into Treasure",
-        heroSubtitle: "Stop losing 12 minutes per table. Calculate how much time and money you're leaving on the table with legacy payments.",
+        heroTitle: "Every Minute Costs \n You Money",
+        heroSubtitle: "12 minutes lost per table. Thousands left on the table every month. See exactly what faster payments would mean for your bottom line.",
         new: "New",
         hrsMo: "hrs/mo",
         vol: "Vol"
@@ -148,8 +148,8 @@ const translations = {
         disclaimer: "*Estimations basées sur les moyennes de performance Sunday.",
         footerTitle: "Prêt à optimiser \n votre restaurant ?",
         getStarted: "Commencer",
-        heroTitle: "Transformez vos tables \n en trésor",
-        heroSubtitle: "Ne perdez plus 12 minutes par table. Calculez le temps et l'argent que vous laissez sur la table avec les paiements traditionnels.",
+        heroTitle: "Chaque Minute \n Vous Coûte Cher",
+        heroSubtitle: "12 minutes perdues par table. Des milliers d'euros laissés sur la table chaque mois. Découvrez l'impact réel d'un paiement plus rapide sur vos résultats.",
         new: "Nouv.",
         hrsMo: "h/mois",
         vol: "Vol"
